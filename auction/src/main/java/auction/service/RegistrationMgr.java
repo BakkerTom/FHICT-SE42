@@ -1,16 +1,20 @@
 package auction.service;
 
 import java.util.*;
+
+import auction.dao.UserDAOJPAImpl;
 import auction.domain.User;
 import auction.dao.UserDAOCollectionImpl;
 import auction.dao.UserDAO;
+
+import javax.persistence.Persistence;
 
 public class RegistrationMgr {
 
     private UserDAO userDAO;
 
     public RegistrationMgr() {
-        userDAO = new UserDAOCollectionImpl();
+        userDAO = new UserDAOJPAImpl(Persistence.createEntityManagerFactory("veilingPU").createEntityManager());
     }
 
     /**
