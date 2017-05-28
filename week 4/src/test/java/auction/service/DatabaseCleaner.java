@@ -1,6 +1,7 @@
 package auction.service;
 
 import auction.domain.Bid;
+import auction.domain.Category;
 import auction.domain.Item;
 import auction.domain.User;
 

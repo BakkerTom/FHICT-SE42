@@ -16,6 +16,10 @@ public class Bid {
     private User buyer;
     private Money amount;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(nullable = false)
+    private Item item;
+
     public Bid(){};
 
     /**
@@ -41,4 +45,10 @@ public class Bid {
     public Money getAmount() {
         return amount;
     }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Item getItem() { return this.item; }
 }

@@ -3,6 +3,8 @@ package auction.domain;
 import nl.fontys.util.Money;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NamedQueries({
@@ -31,7 +33,12 @@ public class Item implements Comparable {
     @OneToOne
     private Bid highest;
 
-    public Item(){}
+    @OneToMany
+    private List<Bid> bids;
+
+    public Item(){
+        this.bids = new ArrayList<Bid>();
+    }
 
     /**
      * Create a new a Item object.
@@ -43,6 +50,7 @@ public class Item implements Comparable {
         this.seller = seller;
         this.category = category;
         this.description = description;
+        this.bids = new ArrayList<Bid>();
 
         seller.addItem(this);
         //newBid(seller, new Money(0, Money.EURO));
@@ -88,6 +96,8 @@ public class Item implements Comparable {
         return highest;
     }
 
+    public List<Bid> getBids() { return this.bids; }
+
     /**
      * Make a bid on this item.
      * @param buyer User object representing the buyer.
@@ -100,6 +110,7 @@ public class Item implements Comparable {
             return null;
         }
         highest = new Bid(buyer, amount);
+        this.bids.add(this.highest);
         return highest;
     }
 
