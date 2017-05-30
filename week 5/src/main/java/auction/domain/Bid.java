@@ -13,15 +13,20 @@ public class Bid {
     private Long id;
 
     private FontysTime time;
-
-    @ManyToOne
     private User buyer;
-
-    @Embedded
     private Money amount;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(nullable = false)
+    private Item item;
 
     public Bid(){};
 
+    /**
+     * Create a new Bid object with current time.
+     * @param buyer User object that places the bid.
+     * @param amount Amount of money.
+     */
     public Bid(User buyer, Money amount) {
         this.buyer = buyer;
         this.amount = amount;
@@ -40,4 +45,10 @@ public class Bid {
     public Money getAmount() {
         return amount;
     }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Item getItem() { return this.item; }
 }
