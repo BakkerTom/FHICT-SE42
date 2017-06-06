@@ -2,9 +2,7 @@ package auction.service;
 
 import auction.dao.ItemDAO;
 import auction.dao.ItemDAOJPAImpl;
-import auction.domain.Category;
-import auction.domain.Item;
-import auction.domain.User;
+import auction.domain.*;
 
 import javax.persistence.Persistence;
 
@@ -28,6 +26,18 @@ public class SellerMgr {
         itemDAO.create(item);
         return item;
     }
+
+    public Item offerFurniture(User seller, Category cat, String description, String material) {
+        Furniture item = new Furniture(seller, cat, description, material);
+        itemDAO.create(item);
+        return item;
+    }
+
+    public Item offerPainting(User seller, Category cat, String description, String title, String painter) {
+        Painting item = new Painting(seller, cat, description, title, painter);
+        itemDAO.create(item);
+        return item;
+    }
     
      /**
      * @param item
@@ -41,4 +51,7 @@ public class SellerMgr {
         }
         return false;
     }
+
+
+
 }

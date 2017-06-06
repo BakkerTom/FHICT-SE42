@@ -33,7 +33,7 @@ public class Item implements Comparable {
     @OneToOne
     private Bid highest;
 
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL)
     private List<Bid> bids;
 
     public Item(){

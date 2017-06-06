@@ -12,12 +12,15 @@ public class Bid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Embedded
     private FontysTime time;
+
+    @ManyToOne
     private User buyer;
     private Money amount;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = true)
     private Item item;
 
     public Bid(){};
@@ -51,4 +54,20 @@ public class Bid {
     }
 
     public Item getItem() { return this.item; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() != Bid.class) return false;
+
+        Bid compare = (Bid) obj;
+
+        if (this.buyer.equals(compare.buyer)
+                && this.amount.equals(compare.amount)
+                && this.time.equals(compare.time)){
+
+            return true;
+        }
+
+        return false;
+    }
 }

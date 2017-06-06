@@ -47,7 +47,8 @@ public class AuctionMgr  {
      *         amount niet hoger was dan het laatste bod, dan null
      */
     public Bid newBid(Item item, User buyer, Money amount) {
-        item.newBid(buyer, amount);
-        return item.getHighestBid();
+        Bid bid = item.newBid(buyer, amount);
+        itemDAO.edit(item);
+        return bid;
     }
 }
