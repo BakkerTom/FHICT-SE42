@@ -4,7 +4,12 @@ import nl.fontys.util.FontysTime;
 import nl.fontys.util.Money;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class Bid {
 
@@ -16,17 +21,8 @@ public class Bid {
     private User buyer;
     private Money amount;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(nullable = false)
-    private Item item;
-
     public Bid(){};
 
-    /**
-     * Create a new Bid object with current time.
-     * @param buyer User object that places the bid.
-     * @param amount Amount of money.
-     */
     public Bid(User buyer, Money amount) {
         this.buyer = buyer;
         this.amount = amount;
@@ -45,10 +41,4 @@ public class Bid {
     public Money getAmount() {
         return amount;
     }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    public Item getItem() { return this.item; }
 }

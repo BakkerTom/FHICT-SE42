@@ -1,10 +1,12 @@
 package auction.domain;
 
+import javax.jws.WebMethod;
 import nl.fontys.util.Money;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @NamedQueries({
@@ -13,6 +15,8 @@ import java.util.List;
         @NamedQuery(name = "Item.findAll", query = "select i from Item as i"),
         @NamedQuery(name = "Item.findByDescription", query = "select i from Item as i where i.description = :description")
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Item implements Comparable {
 
     @Id
@@ -33,12 +37,7 @@ public class Item implements Comparable {
     @OneToOne
     private Bid highest;
 
-    @OneToMany
-    private List<Bid> bids;
-
-    public Item(){
-        this.bids = new ArrayList<Bid>();
-    }
+    public Item(){}
 
     /**
      * Create a new a Item object.
@@ -50,9 +49,7 @@ public class Item implements Comparable {
         this.seller = seller;
         this.category = category;
         this.description = description;
-        this.bids = new ArrayList<Bid>();
 
-        seller.addItem(this);
         //newBid(seller, new Money(0, Money.EURO));
     }
 
@@ -96,8 +93,6 @@ public class Item implements Comparable {
         return highest;
     }
 
-    public List<Bid> getBids() { return this.bids; }
-
     /**
      * Make a bid on this item.
      * @param buyer User object representing the buyer.
@@ -110,8 +105,6 @@ public class Item implements Comparable {
             return null;
         }
         highest = new Bid(buyer, amount);
-        highest.setItem(this);
-        this.bids.add(this.highest);
         return highest;
     }
 
@@ -121,22 +114,12 @@ public class Item implements Comparable {
     }
 
     public boolean equals(Object o) {
-        if(o == null) { return false; }
-        if(o == this) { return true; }
-        if(!(o instanceof Item)) { return false; }
-        Item otherItem = (Item) o;
-
-        if(otherItem.getId() != this.getId()) { return false; }
-        if(otherItem.getDescription() != this.getDescription()) { return false; }
-        if(otherItem.getHighestBid().getAmount().getCents() != this.getHighestBid().getAmount().getCents()) { return false; }
-
-        return true;
+        //TODO
+        return false;
     }
 
     public int hashCode() {
-        int hashCode = 1;
-        hashCode = hashCode * 12 + (this.seller.getEmail().hashCode());
-        hashCode = hashCode * 13 + (this.getDescription().hashCode());
-        return hashCode;
+        //TODO
+        return 0;
     }
 }
